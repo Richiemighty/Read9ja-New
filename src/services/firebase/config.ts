@@ -7,13 +7,13 @@ import { getAnalytics } from "firebase/analytics";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBVp7R6tlD7hiYK9N0xdWHa-6smusvWWvg",
-  authDomain: "ready9ja.firebaseapp.com",
-  projectId: "ready9ja",
-  storageBucket: "ready9ja.firebasestorage.app",
-  messagingSenderId: "813554804571",
-  appId: "1:813554804571:web:ee7d9067fc53ddc0eedc7e",
-  measurementId: "G-J4Z45H19JN"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+  measurementId: ""
 };
     
 // Initialize Firebase
