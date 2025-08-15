@@ -43,6 +43,12 @@ export const COLORS = {
   info: '#3b82f6',
   white: '#ffffff',
   black: '#000000',
+  // Light variants
+  successLight: '#d1fae5',
+  warningLight: '#fef3c7',
+  errorLight: '#fecaca',
+  primaryLight: '#e0e7ff',
+  backgroundLight: '#f8fafc',
   gray: {
     50: '#f9fafb',
     100: '#f3f4f6',
@@ -55,6 +61,14 @@ export const COLORS = {
     800: '#1f2937',
     900: '#111827'
   }
+};
+
+// Typography
+export const FONTS = {
+  regular: 'System',
+  medium: 'System',
+  bold: 'System',
+  light: 'System',
 };
 
 // Product Categories with display info

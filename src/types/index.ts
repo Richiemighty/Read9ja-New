@@ -47,30 +47,39 @@ export type ProductCategory =
 
 export type Currency = 'NGN' | 'USD';
 
+export interface ProductFormData {
+  title: string;
+  description: string;
+  category: ProductCategory;
+  price: number;
+  currency: Currency;
+  stock: number;
+  images?: string[];
+  tags?: string[];
+  specifications?: Record<string, string>;
+  isCustomizable?: boolean;
+}
+
 export interface Product {
   id: string;
   sellerId: string;
-  sellerInfo: {
-    name: string;
-    rating: number;
-    totalReviews: number;
-  };
-  name: string;
+  title: string;
   description: string;
   category: ProductCategory;
   price: number;
   currency: Currency;
   images: string[];
   stock: number;
-  isAvailable: boolean;
-  isCustomizable: boolean;
-  tags: string[];
+  status: 'active' | 'inactive' | 'draft';
+  tags?: string[];
   specifications?: Record<string, string>;
+  isCustomizable?: boolean;
+  views: number;
+  orders: number;
   rating: number;
-  totalReviews: number;
-  totalSold: number;
-  createdAt: Date;
-  updatedAt: Date;
+  reviewCount: number;
+  createdAt: any; // Firebase Timestamp
+  updatedAt: any; // Firebase Timestamp
 }
 
 // Order Types
