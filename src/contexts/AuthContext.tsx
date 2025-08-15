@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+// import * as React from 'react';
 import { 
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -77,11 +78,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       totalReviews: 0,
       totalTransactions: 0,
       referralCode: generateReferralCode(userData.firstName || 'User', userData.lastName || 'Name'),
-      referredBy: userData.referredBy || undefined,
+      // referredBy: userData.referredBy ?? null,
       bonus: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     };
+
+    if (userData.referredBy) {
+      profileData.referredBy = userData.referredBy;
+    }
+
 
     // Save profile to Firestore
     const profileRef = doc(db, COLLECTIONS.PROFILES, firebaseUser.uid);
@@ -165,19 +171,53 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Sign in existing user
+// Sign in existing user (and create profile if missing)
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
       setLoading(true);
-      await signInWithEmailAndPassword(auth, email, password);
-      // Profile will be loaded in the auth state change listener
+
+      // Step 1: Authenticate
+      const { user: firebaseUser } = await signInWithEmailAndPassword(auth, email, password);
+
+      // Step 2: Fetch existing profile
+      const { profile: existingProfile, role: existingRole } = await fetchUserProfile(firebaseUser.uid);
+
+      let finalProfile = existingProfile;
+      let finalRole = existingRole;
+      // let finalRole: UserRole = existingRole ?? "user";
+
+
+      // Step 3: If profile doesn't exist, create it
+      if (!existingProfile || !existingRole) {
+        console.warn("No profile found for this user — creating a new one...");
+
+        const defaultData: Partial<Profile> = {
+          firstName: firebaseUser.displayName?.split(" ")[0] || "User",
+          lastName: firebaseUser.displayName?.split(" ")[1] || "",
+          displayName: firebaseUser.displayName || firebaseUser.email?.split("@")[0] || "User",
+          phoneNumber: firebaseUser.phoneNumber || "",
+          address: "",
+        };
+
+        const createdProfile = await createUserProfile(firebaseUser, defaultData, "user" as UserRole);
+        finalProfile = createdProfile;
+        finalRole = "user" as UserRole;
+      }
+
+      // Step 4: Save in state & AsyncStorage
+      setProfile(finalProfile);
+      setUserRole(finalRole);
+      await AsyncStorage.setItem(STORAGE_KEYS.USER_ROLE, finalRole ?? "user");
+
     } catch (error) {
-      console.error('Signin error:', error);
+      console.error("Signin error:", error);
       throw error;
     } finally {
       setLoading(false);
     }
   };
 
+  
   // Sign out user
   const logout = async (): Promise<void> => {
     try {
