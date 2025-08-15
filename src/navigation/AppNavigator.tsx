@@ -12,6 +12,14 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 
+// Common Screens
+import ProfileScreen from '../screens/common/ProfileScreen';
+import EditProfileScreen from '../screens/common/EditProfileScreen';
+
+// Buyer Screens
+import HomeScreen from '../screens/buyer/HomeScreen';
+import MarketplaceScreenComponent from '../screens/buyer/MarketplaceScreen';
+
 // Loading Component
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 
@@ -28,13 +36,6 @@ const LoadingScreen = () => (
 );
 
 // Placeholder screens (we'll create these later)
-const HomeScreen = () => (
-  <View style={styles.placeholderContainer}>
-    <Ionicons name="home" size={64} color={COLORS.primary} />
-    <Text style={styles.placeholderText}>Home Screen</Text>
-  </View>
-);
-
 const MarketplaceScreen = () => (
   <View style={styles.placeholderContainer}>
     <Ionicons name="storefront" size={64} color={COLORS.primary} />
@@ -53,13 +54,6 @@ const MessagesScreen = () => (
   <View style={styles.placeholderContainer}>
     <Ionicons name="chatbubbles" size={64} color={COLORS.primary} />
     <Text style={styles.placeholderText}>Messages Screen</Text>
-  </View>
-);
-
-const ProfileScreen = () => (
-  <View style={styles.placeholderContainer}>
-    <Ionicons name="person" size={64} color={COLORS.primary} />
-    <Text style={styles.placeholderText}>Profile Screen</Text>
   </View>
 );
 
@@ -133,7 +127,7 @@ const BuyerTabNavigator = () => (
     />
     <Tab.Screen 
       name={ROUTES.MARKETPLACE} 
-      component={MarketplaceScreen}
+      component={MarketplaceScreenComponent}
       options={{ tabBarLabel: 'Marketplace' }}
     />
     <Tab.Screen 
@@ -201,7 +195,7 @@ const SellerTabNavigator = () => (
     />
     <Tab.Screen 
       name={ROUTES.MARKETPLACE} 
-      component={MarketplaceScreen}
+      component={MarketplaceScreenComponent}
       options={{ tabBarLabel: 'Marketplace' }}
     />
     <Tab.Screen 
