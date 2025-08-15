@@ -1,9 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
-    "jsx": "react-jsx",            // Enables JSX in TS files
-    "esModuleInterop": true,       // Fixes the "default import" error
-    "allowSyntheticDefaultImports": true // Allows default imports without esModuleInterop
+    "strict": true
   }
 }
