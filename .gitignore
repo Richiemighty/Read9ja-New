@@ -32,6 +32,51 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
+.env.development
+.env.production
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+database-debug.log
+ui-debug.log
+firebase-debug.*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs
+*.log
+
+# Coverage directory
+coverage/
 
 # typescript
 *.tsbuildinfo
+
+# Temporary folders
+tmp/
+temp/
+
+# Build artifacts
+build/
+
+# Android specific
+android/app/build/
+android/.gradle/
+android/gradle/
+android/gradlew
+android/gradlew.bat
+!android/gradle/wrapper/gradle-wrapper.properties
+
+# iOS specific
+ios/Pods/
+ios/build/
+ios/.xcode.env.local
