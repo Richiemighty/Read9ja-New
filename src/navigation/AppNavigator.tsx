@@ -300,7 +300,17 @@ const MainAppNavigator = ({ userRole }: { userRole: UserRole }) => {
 
 // Root App Navigator
 export const AppNavigator = () => {
-  const { isAuthenticated, loading, userRole } = useAuth();
+  const { user, isAuthenticated, loading, userRole } = useAuth();
+
+  // Add debug logging to help troubleshoot
+  useEffect(() => {
+    console.log('AppNavigator state:', { 
+      user: !!user, 
+      isAuthenticated, 
+      loading, 
+      userRole 
+    });
+  }, [user, isAuthenticated, loading, userRole]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -308,7 +318,7 @@ export const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated && userRole ? (
+      {user && isAuthenticated && userRole ? (
         <MainAppNavigator userRole={userRole} />
       ) : (
         <AuthNavigator />

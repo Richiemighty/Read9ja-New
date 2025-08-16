@@ -138,7 +138,19 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Logout', style: 'destructive', onPress: logout }
+        { 
+          text: 'Logout', 
+          style: 'destructive', 
+          onPress: async () => {
+            try {
+              await logout();
+            } catch (error) {
+              console.error('Logout error in ProfileScreen:', error);
+              // Even if logout fails, we should still try to navigate
+              Alert.alert('Logout Error', 'There was an issue logging out. Please try again.');
+            }
+          }
+        }
       ]
     );
   };

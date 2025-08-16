@@ -181,6 +181,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Sign out user
   const logout = async (): Promise<void> => {
     try {
+      setLoading(true);
       // Clear stored data first
       await Promise.all([
         AsyncStorage.removeItem(STORAGE_KEYS.USER_ROLE),
@@ -188,11 +189,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         AsyncStorage.removeItem(STORAGE_KEYS.RECENTLY_VIEWED)
       ]);
 
+      // Clear local state immediately
+      setUser(null);
+      setProfile(null);
+      setUserRole(null);
+
       // Sign out from Firebase, which will trigger the onAuthStateChanged listener
       await signOut(auth);
     } catch (error) {
       console.error('Logout error:', error);
-      throw error;
+      // Don't throw error, just log it and continue with logout
+      // Clear local state even if Firebase signout fails
+      setUser(null);
+      setProfile(null);
+      setUserRole(null);
+    } finally {
+      setLoading(false);
     }
   };
 
