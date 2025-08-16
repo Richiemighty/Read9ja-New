@@ -181,18 +181,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Sign out user
   const logout = async (): Promise<void> => {
     try {
-      // Clear stored data first
+      // Immediately update state to trigger UI changes
+      setUser(null);
+      setProfile(null);
+      setUserRole(null);
+
+      // Perform async cleanup
+      await signOut(auth);
       await Promise.all([
         AsyncStorage.removeItem(STORAGE_KEYS.USER_ROLE),
         AsyncStorage.removeItem(STORAGE_KEYS.CART_ITEMS),
         AsyncStorage.removeItem(STORAGE_KEYS.RECENTLY_VIEWED)
       ]);
-
-      // Sign out from Firebase, which will trigger the onAuthStateChanged listener
-      await signOut(auth);
     } catch (error) {
       console.error('Logout error:', error);
-      throw error;
+      // It's safer not to re-throw here as it might be unhandled in the UI
     }
   };
 
